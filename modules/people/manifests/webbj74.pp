@@ -5,11 +5,24 @@
 #
 #     github "fitbit","1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
 #     github "skype", "1.0.8"
-#     github "toggl", "1.0.2"
+#     github "toggl", "1.0.2.907", :repo => "webbj74/puppet-toggl"
+#     github "wget",  "1.0.0"
 #
 class people::webbj74 {
+
+  # apps
   include skype
   include toggl
+
+  # brews
+  include wget
+
+  git::config::global {
+    'color.ui':   value => 'true';
+    'core.pager': value => '/usr/bin/less';
+    'alias.la':   value => '!git config -l | grep alias | cut -c 7-';
+
+  }
 
   case $::hostname {
     'abies-alba': {
