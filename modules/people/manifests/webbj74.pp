@@ -8,7 +8,17 @@
 #     github "toggl", "1.0.2"
 #
 class people::webbj74 {
-  include fitbit::force
   include skype
   include toggl
+
+  case $::hostname {
+    'abies-alba': {
+      notify{"Loading personal":}
+      include fitbit::force
+      include printers::brother_hl2270dw
+    }
+    'acquia-un-nefer': {
+      notify{"Loading work":}
+    }
+  }
 }
