@@ -18,10 +18,12 @@ class people::webbj74 {
   include wget
 
   git::config::global {
-    'color.ui':   value => 'true';
-    'core.pager': value => '/usr/bin/less';
-    'alias.la':   value => '"!git config -l | grep alias | cut -c 7-"';
-
+    'alias.la':     value => '"!git config -l | grep alias | cut -c 7-"';
+    'color.ui':     value => 'true';
+    'core.editor':  value => 'vim';
+    'core.pager':   value => '/usr/bin/less';
+    'pull.default': value => 'simple';
+    'push.default': value => 'simple';
   }
 
   case $::hostname {
