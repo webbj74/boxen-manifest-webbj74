@@ -20,7 +20,7 @@ class people::webbj74 {
   git::config::global {
     'color.ui':   value => 'true';
     'core.pager': value => '/usr/bin/less';
-    'alias.la':   value => '!git config -l | grep alias | cut -c 7-';
+    'alias.la':   value => '"!git config -l | grep alias | cut -c 7-"';
 
   }
 
