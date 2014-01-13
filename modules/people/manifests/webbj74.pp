@@ -23,15 +23,18 @@ class people::webbj74 {
 
   git::config::global {
     'alias.la':      value => '"!git config -l | grep alias | cut -c 7-"';
-    'alias.ls':      value => 'log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate';
-    'alias.ll':      value => 'log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat';
-    'alias.lnc':     value => 'log --pretty=format:"%h\\ %s\\ [%cn]"';
-    'alias.lds':     value => 'log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short';
-    'alias.ld':      value => 'log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative';
+    'alias.ls':      value => 'log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate';
+    'alias.ll':      value => 'log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate --numstat';
+    'alias.lnc':     value => 'log --pretty=format:"%h\\ %s\\ [%an]"';
+    'alias.lds':     value => 'log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate --date=short';
+    'alias.ld':      value => 'log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate --date=relative';
     'alias.le':      value => 'log --oneline --decorate';
     'alias.filelog': value => 'log -u';
     'alias.fl':      value => 'log -u';
     'alias.f':       value => '"!git ls-files | grep -i"';
+    'alias.graph':   value => 'log --all --graph --decorate --oneline -n30';
+    'alias.grep':    value => 'grep -EIi';
+    'alias.sync':    value => '!f() { git checkout master && git fetch --all && git rebase upstream/master && git push -f origin master; }; f';
     'color.ui':      value => 'true';
     'core.editor':   value => 'vim';
     'core.pager':    value => '/usr/bin/less -r';
@@ -47,6 +50,14 @@ class people::webbj74 {
     }
     'acquia-un-nefer': {
       notify{"Loading work":}
+
+      # backup for aliases already stored in acquia/support-cli
+      git::config::global {
+        'alias.origin-release':  value => '!f() { ACQUIA_REMOTE=$(git remote -v | grep -m 1 "git@github.com:webbj74/support-cli.git (push)" | cut -f1) && RELEASE_TAG=$(date -u +release-%F-%H-%M) && git tag -a ${RELEASE_TAG} && git push ${ACQUIA_REMOTE} ${RELEASE_TAG} && git --no-pager log --pretty=format:"%n%C(yellow)%h%Creset %s%Cblue [%an]%n       %Cred%d%Creset%n" --decorate -1; }; f';
+        'alias.origin-rollback': value => '!f() { ACQUIA_REMOTE=$(git remote -v | grep -m 1 "git@github.com:webbj74/support-cli.git (push)" | cut -f1) && LATEST_TAG=$(git ls-remote --tags ${ACQUIA_REMOTE} release-* | cut -f2 | sort | tail -n1) && echo "Rolling back ${LATEST_TAG}" && git push ${ACQUIA_REMOTE} :${LATEST_TAG} && LATEST_TAG=$(git ls-remote --tags ${ACQUIA_REMOTE} release-* | cut -f2 | sort | tail -n1) && git --no-pager log --pretty=format:"%nProd is now ${LATEST_TAG}%n%C(yellow)%h%Creset %s%Cblue [%an]%n       %Cred%d%Creset%n" --decorate -1 ${LATEST_TAG}; }; f';
+        'alias.prod-release':    value => '!f() { ACQUIA_REMOTE=$(git remote -v | grep -m 1 "git@github.com:acquia/support-cli.git (push)" | cut -f1) && RELEASE_TAG=$(date -u +release-%F-%H-%M) && git tag -a ${RELEASE_TAG} && git push ${ACQUIA_REMOTE} ${RELEASE_TAG} && git --no-pager log --pretty=format:"%n%C(yellow)%h%Creset %s%Cblue [%an]%n       %Cred%d%Creset%n" --decorate -1; }; f';
+        'alias.prod-rollback':   value => '!f() { ACQUIA_REMOTE=$(git remote -v | grep -m 1 "git@github.com:acquia/support-cli.git (push)" | cut -f1) && LATEST_TAG=$(git ls-remote --tags ${ACQUIA_REMOTE} release-* | cut -f2 | sort | tail -n1) && echo "Rolling back ${LATEST_TAG}" && git push ${ACQUIA_REMOTE} :${LATEST_TAG} && LATEST_TAG=$(git ls-remote --tags ${ACQUIA_REMOTE} release-* | cut -f2 | sort | tail -n1) && git --no-pager log --pretty=format:"%nProd is now ${LATEST_TAG}%n%C(yellow)%h%Creset %s%Cblue [%an]%n       %Cred%d%Creset%n" --decorate -1 ${LATEST_TAG}; }; f';
+      }
     }
   }
 }
