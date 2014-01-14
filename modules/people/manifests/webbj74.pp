@@ -46,7 +46,19 @@ class people::webbj74 {
     'abies-alba': {
       notify{"Loading personal":}
       include fitbit::force
-      include printers::brother_hl2270dw
+
+      #
+      # These packages were basically useless; retaining as examples only
+      #
+      # package { 'BrotherWirelessSetupWizard':
+      #   provider => 'pkgdmg',
+      #   source   => 'http://download.brother.com/welcome/dlf004989/BrotherWDSW_200.dmg',
+      # }
+      # package { 'BrotherAdminLight':
+      #   provider => 'pkgdmg',
+      #   source   => 'http://download.brother.com/welcome/dlf004934/BRAdminLight_Code_1224a.dmg',
+      # }
+      #
     }
     'acquia-un-nefer': {
       notify{"Loading work":}
@@ -61,3 +73,4 @@ class people::webbj74 {
     }
   }
 }
+
