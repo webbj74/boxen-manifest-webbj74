@@ -3,6 +3,9 @@
 #
 # dev and github are defined in the main boxen Puppetfile
 
+# core
+github "osx",    "2.2.2"
+
 # apps
 github "chrome", "1.1.2"
 github "fitbit", "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
