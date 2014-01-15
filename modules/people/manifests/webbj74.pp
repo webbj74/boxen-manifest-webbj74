@@ -3,24 +3,52 @@
 #
 #  Requires the following added to Puppetfile:
 #
-#      github "fitbit","1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
-#      github "skype", "1.0.8"
-#      github "toggl", "1.0.2.908", :repo => "webbj74/puppet-toggl"
-#      github "wget",  "1.0.0"
+#      github "chrome", "1.1.2"
+#      github "fitbit", "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
+#      github "skype",  "1.0.8"
+#      github "toggl",  "1.0.2.908", :repo => "webbj74/puppet-toggl"
+#      github "wget",   "1.0.0"
+#      github "zsh",    "1.0.0"
 #
 #  References:
-#  - example manifest - https://gist.github.com/wfarr/d0fbd5f8961ec6f32bdf
-#  - example manifest - https://gist.github.com/jbarnette/2c07b3968f32ea7d9d10
+#  - example manifest - https://twitter.com/wfarr/status/302507542788059136
+#  - example manifest - https://twitter.com/jbarnette/status/302507787865444354
 #  - git aliases - http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/
 class people::webbj74 {
 
-  # apps
+  #
+  #  OS X APPS
+  #
+  include chrome
   include skype
   include toggl
 
-  # brews
+  #
+  #  HOMEBREW
+  #
   include wget
+  include zsh
 
+  #
+  #  DOTFILES
+  #
+  repository { 'dotfiles':
+    source => 'webbj74/dotfiles',
+    path   => "/Users/${::boxen_user}/.dotfiles"
+  }
+  repository { 'oh-my-zsh':
+    source => 'robbyrussell/oh-my-zsh',
+    path   => "/Users/${::boxen_user}/.oh-my-zsh"
+  }
+  file { "/Users/${::boxen_user}/.zshrc":
+    ensure  => link,
+    target  => "/Users/${::boxen_user}/.dotfiles/common/zshrc",
+    require => [ Repository['oh-my-zsh'], Repository['dotfiles'] ]
+  }
+
+  #
+  #  GIT
+  #
   git::config::global {
     'alias.la':      value => '"!git config -l | grep alias | cut -c 7-"';
     'alias.ls':      value => 'log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%an]" --decorate';
@@ -42,10 +70,19 @@ class people::webbj74 {
     'push.default':  value => 'simple';
   }
 
+  #
+  #  MACHINE DEPENDENT
+  #
   case $::hostname {
     'abies-alba': {
-      notify{"Loading personal":}
+      notice("Detected personal laptop")
       include fitbit::force
+
+      file { "/Users/${::boxen_user}/.cups":
+        ensure  => link,
+        target  => "/Users/${::boxen_user}/.dotfiles/${::hostname}/cups",
+        require => Repository['dotfiles']
+      }
 
       #
       # These packages were basically useless; retaining as examples only
@@ -61,7 +98,7 @@ class people::webbj74 {
       #
     }
     'acquia-un-nefer': {
-      notify{"Loading work":}
+      notice("Detected work laptop")
 
       # backup for aliases already stored in acquia/support-cli
       git::config::global {
