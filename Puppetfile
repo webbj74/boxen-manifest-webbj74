@@ -4,10 +4,11 @@
 # dev and github are defined in the main boxen Puppetfile
 
 # apps
-github "fitbit","1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
-github "skype", "1.0.8"
-github "toggl", "1.0.2.908", :repo => "webbj74/puppet-toggl"
+github "chrome", "1.1.2"
+github "fitbit", "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
+github "skype",  "1.0.8"
+github "toggl",  "1.0.2.908", :repo => "webbj74/puppet-toggl"
 
 # brews
-github "wget",  "1.0.0"
-
+github "wget",   "1.0.0"
+github "zsh",    "1.0.0"
