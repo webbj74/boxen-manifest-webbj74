@@ -16,7 +16,7 @@
 #      github "php",        "1.1.4"
 #      github "phpstorm",   "1.0.4"
 #      github "skype",      "1.0.8"
-#      github "toggl",      "1.0.2.908", :repo => "webbj74/puppet-toggl"
+#      github "toggl",      "1.0.3"
 #      github "vagrant",    "3.0.3"
 #      github "virtualbox", "1.0.10"
 #      github "wget",       "1.0.0"
