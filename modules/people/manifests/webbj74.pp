@@ -3,17 +3,27 @@
 #
 #  Requires the following added to Puppetfile:
 #
-#      github "chrome", "1.1.2"
-#      github "fitbit", "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
-#      github "osx",    "2.2.2"
-#      github "skype",  "1.0.8"
-#      github "toggl",  "1.0.2.908", :repo => "webbj74/puppet-toggl"
-#      github "wget",   "1.0.0"
-#      github "zsh",    "1.0.0"
+#      github "autoconf", "1.0.0"
+#      github "chrome",   "1.1.2"
+#      github "fitbit",   "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
+#      github "libpng",   "1.0.0"
+#      github "libtool",  "1.0.0"
+#      github "mysql",    "1.2.0"
+#      github "osx",      "2.2.2"
+#      github "pcre",     "1.0.0"
+#      github "php",      "1.1.4"
+#      github "skype",    "1.0.8"
+#      github "toggl",    "1.0.2.908", :repo => "webbj74/puppet-toggl"
+#      github "wget",     "1.0.0"
+#      github "zsh",      "1.0.0"
+#
+#  NOTES:
+#  - if puppet-php 1.1.4 fails, here's the fix https://github.com/boxen/puppet-php/issues/25
 #
 #  References:
 #  - example manifest - https://twitter.com/wfarr/status/302507542788059136
 #  - example manifest - https://twitter.com/jbarnette/status/302507787865444354
+#  - example team boxen - https://github.com/dliggat/boxen
 #  - git aliases - http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/
 class people::webbj74 {
 
@@ -29,6 +39,8 @@ class people::webbj74 {
   #
   include wget
   include zsh
+  include php::5_3
+  include php::5_4
 
   #
   #  DOTFILES
