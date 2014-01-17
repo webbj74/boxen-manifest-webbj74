@@ -3,19 +3,24 @@
 #
 #  Requires the following added to Puppetfile:
 #
-#      github "autoconf", "1.0.0"
-#      github "chrome",   "1.1.2"
-#      github "fitbit",   "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
-#      github "libpng",   "1.0.0"
-#      github "libtool",  "1.0.0"
-#      github "mysql",    "1.2.0"
-#      github "osx",      "2.2.2"
-#      github "pcre",     "1.0.0"
-#      github "php",      "1.1.4"
-#      github "skype",    "1.0.8"
-#      github "toggl",    "1.0.2.908", :repo => "webbj74/puppet-toggl"
-#      github "wget",     "1.0.0"
-#      github "zsh",      "1.0.0"
+#      github "adium",      "1.3.0"
+#      github "autoconf",   "1.0.0"
+#      github "chrome",     "1.1.2"
+#      github "fitbit",     "1.0.0.9.1", :repo => "webbj74/puppet-fitbit"
+#      github "iterm2",     "1.0.4"
+#      github "libpng",     "1.0.0"
+#      github "libtool",    "1.0.0"
+#      github "mysql",      "1.2.0"
+#      github "osx",        "2.2.2"
+#      github "pcre",       "1.0.0"
+#      github "php",        "1.1.4"
+#      github "phpstorm",   "1.0.4"
+#      github "skype",      "1.0.8"
+#      github "toggl",      "1.0.2.908", :repo => "webbj74/puppet-toggl"
+#      github "vagrant",    "3.0.3"
+#      github "virtualbox", "1.0.10"
+#      github "wget",       "1.0.0"
+#      github "zsh",        "1.0.0"
 #
 #  NOTES:
 #  - if puppet-php 1.1.4 fails, here's the fix https://github.com/boxen/puppet-php/issues/25
@@ -30,9 +35,14 @@ class people::webbj74 {
   #
   #  OS X APPS
   #
+  include adium
   include chrome
+  include iterm2::dev
+  include phpstorm
   include skype
   include toggl
+  include vagrant
+  include virtualbox
 
   #
   #  HOMEBREW
@@ -41,6 +51,13 @@ class people::webbj74 {
   include zsh
   include php::5_3
   include php::5_4
+  include php::composer
+
+  package { 'drush':
+    provider => 'homebrew',
+    require => Exec['phpenv-setup-root-repo']
+  }
+
 
   #
   #  DOTFILES
